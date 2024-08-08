@@ -15,6 +15,7 @@
 		800B86442C63A77B00652D75 /* EmojiArtDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B86432C63A77B00652D75 /* EmojiArtDocument.swift */; };
 		800B86462C63A92000652D75 /* EmojiArtDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B86452C63A92000652D75 /* EmojiArtDocumentView.swift */; };
 		800B86482C63B52A00652D75 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B86472C63B52900652D75 /* Extensions.swift */; };
+		800B864C2C652E1300652D75 /* Sturldata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B864B2C652E1300652D75 /* Sturldata.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		800B86432C63A77B00652D75 /* EmojiArtDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocument.swift; sourceTree = "<group>"; };
 		800B86452C63A92000652D75 /* EmojiArtDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentView.swift; sourceTree = "<group>"; };
 		800B86472C63B52900652D75 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		800B864B2C652E1300652D75 /* Sturldata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sturldata.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				800B86432C63A77B00652D75 /* EmojiArtDocument.swift */,
 				800B86452C63A92000652D75 /* EmojiArtDocumentView.swift */,
 				800B86472C63B52900652D75 /* Extensions.swift */,
+				800B864B2C652E1300652D75 /* Sturldata.swift */,
 				800B86372C63A56400652D75 /* Assets.xcassets */,
 				800B86392C63A56400652D75 /* Preview Content */,
 			);
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				800B864C2C652E1300652D75 /* Sturldata.swift in Sources */,
 				800B86462C63A92000652D75 /* EmojiArtDocumentView.swift in Sources */,
 				800B86482C63B52A00652D75 /* Extensions.swift in Sources */,
 				800B86422C63A5CE00652D75 /* EmojiArt.swift in Sources */,

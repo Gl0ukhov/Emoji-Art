@@ -13,6 +13,11 @@ class EmojiArtDocument {
     
     private var emojiArt = EmojiArt()
     
+    init() {
+        emojiArt.addEmpoji("🚑", at: .init(x: 100, y: -80), size: 200)
+        emojiArt.addEmpoji("🦆", at: .init(x: 250, y: 100), size: 80)
+    }
+    
     var emojis: [Emoji] {
         emojiArt.emojis
     }
@@ -21,7 +26,7 @@ class EmojiArtDocument {
         emojiArt.background
     }
     
-    func setBaclground(_ url: URL?) {
+    func setBackground(_ url: URL?) {
         emojiArt.background = url
     }
     
@@ -37,7 +42,9 @@ extension EmojiArt.Emoji {
 }
 
 extension EmojiArt.Emoji.Position {
-    func in(_ geometry: GeometryProxy) -> CGPoint {
+    func `in`(_ geometry: GeometryProxy) -> CGPoint {
+        let center = geometry.frame(in: .local).center
         
+        return CGPoint(x: center.x + CGFloat(x), y: center.y - CGFloat(y))
     }
 }
