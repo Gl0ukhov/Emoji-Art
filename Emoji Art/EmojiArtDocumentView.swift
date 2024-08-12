@@ -107,26 +107,6 @@ struct EmojiArtDocumentView: View {
 }
 
 
-struct ScrollingEmojiss: View {
-    let emojis: [String]
-    
-    init(_ emojis: String) {
-        self.emojis = emojis.uniqued.map { String($0) }
-    }
-    
-    var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(emojis, id: \.self) { emoji in
-                    Text(emoji)
-                        .draggable(emoji)
-                }
-            }
-        }
-    }
-    
-}
-
 #Preview {
     EmojiArtDocumentView(document: EmojiArtDocument())
         .environment(PaletteStore(named: "Preview"))
