@@ -18,7 +18,7 @@ struct EmojiArtDocumentView: View {
     var body: some View {
         VStack(spacing: 0) {
             documentBody
-            ScrollingEmojiss(emojis)
+            PaletteChooser()
                 .font(.system(size: paletteEmojiSize))
                 .padding(.horizontal)
                 .scrollIndicators(.hidden)
@@ -129,4 +129,5 @@ struct ScrollingEmojiss: View {
 
 #Preview {
     EmojiArtDocumentView(document: EmojiArtDocument())
+        .environment(PaletteStore(named: "Preview"))
 }
