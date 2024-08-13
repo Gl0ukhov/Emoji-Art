@@ -13,9 +13,10 @@ class EmojiArtDocument {
     
     private var emojiArt = EmojiArt()
     
+    
     init() {
-        emojiArt.addEmpoji("🚑", at: .init(x: 100, y: -80), size: 200)
-        emojiArt.addEmpoji("🦆", at: .init(x: 250, y: 100), size: 80)
+        emojiArt.addEmoji("🚑", at: .init(x: 100, y: -80), size: 200)
+        emojiArt.addEmoji("🦆", at: .init(x: 250, y: 100), size: 80)
     }
     
     var emojis: [Emoji] {
@@ -30,8 +31,16 @@ class EmojiArtDocument {
         emojiArt.background = url
     }
     
-    func addEmpoji(_ emoji: String, at position: Emoji.Position, size: CGFloat) {
-        emojiArt.addEmpoji(emoji, at: position, size: Int(size))
+    func addEmoji(_ emoji: String, at position: Emoji.Position, size: CGFloat) {
+        emojiArt.addEmoji(emoji, at: position, size: Int(size))
+    }
+    
+    func selectionEmoji(_ emoji: Emoji) {
+        emojiArt.selectEmoji(emoji)
+    }
+    
+    func removeSelection() {
+        emojiArt.removeSelection()
     }
 }
 

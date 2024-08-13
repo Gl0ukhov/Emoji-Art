@@ -42,9 +42,11 @@ struct EmojiArtDocumentView: View {
     
     @State private var zoom: CGFloat = 1
     @State private var pan: CGOffset = .zero
+    @State private var panEmoji: CGOffset = .zero
     
     @GestureState private var gestureZoom: CGFloat = 1
     @GestureState private var gesturePan: CGOffset = .zero
+    @GestureState private var gestureEmoji: CGOffset = .zero
     
     private var zoomGesture: some Gesture {
         MagnificationGesture()
@@ -66,16 +68,39 @@ struct EmojiArtDocumentView: View {
             }
     }
     
+    
+    private var emojiGesture: some Gesture {
+        DragGesture()
+            .updating($gestureEmoji, body: { value, gestureEmoji, _ in
+                gestureEmoji = value.translation
+            })
+            .onEnded { value in
+                panEmoji += value.translation
+            }
+    }
+    
+    
     @ViewBuilder
     private func documentContents(in geometry: GeometryProxy) -> some View {
         AsyncImage(url: document.background)
             .position(Emoji.Position.zero.in(geometry))
+            .onTapGesture {
+                document.removeSelection()
+            }
         ForEach(document.emojis) { emoji in
             Text(emoji.string)
+                .offset(emoji.selection ? (panEmoji + gestureEmoji) : CGSizeZero )
                 .font(emoji.font)
                 .position(emoji.position.in(geometry))
-                
+                .onTapGesture {
+                    document.selectionEmoji(emoji)
+                }
+                .shadow(color: .red, radius: emoji.selection ? 15 : 0)
+                .gesture(emojiGesture)
+            
+            
         }
+        
     }
     
     private func drop(_ sturldatas: [Sturldata], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
@@ -85,7 +110,7 @@ struct EmojiArtDocumentView: View {
                 document.setBackground(url)
                 return true
             case .string(let emoji):
-                document.addEmpoji(
+                document.addEmoji(
                     emoji,
                     at: emojiPosition(at: location, in: geometry),
                     size: paletteEmojiSize / zoom
@@ -105,6 +130,7 @@ struct EmojiArtDocumentView: View {
         )
     }
 }
+
 
 
 #Preview {
