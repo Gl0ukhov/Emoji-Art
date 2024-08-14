@@ -34,14 +34,7 @@ class EmojiArtDocument {
     func addEmoji(_ emoji: String, at position: Emoji.Position, size: CGFloat) {
         emojiArt.addEmoji(emoji, at: position, size: Int(size))
     }
-    
-    func selectionEmoji(_ emoji: Emoji) {
-        emojiArt.selectEmoji(emoji)
-    }
-    
-    func removeSelection() {
-        emojiArt.removeSelection()
-    }
+
 }
 
 extension EmojiArt.Emoji {
@@ -51,9 +44,13 @@ extension EmojiArt.Emoji {
 }
 
 extension EmojiArt.Emoji.Position {
-    func `in`(_ geometry: GeometryProxy) -> CGPoint {
+    func `in`(_ geometry: GeometryProxy, gesture: CGSize? ) -> CGPoint {
         let center = geometry.frame(in: .local).center
         
-        return CGPoint(x: center.x + CGFloat(x), y: center.y - CGFloat(y))
+            return CGPoint(
+                x: center.x + CGFloat(x) + (gesture?.width ?? 0),
+                y: center.y - CGFloat(y) + (gesture?.height ?? 0))
+      
     }
 }
+

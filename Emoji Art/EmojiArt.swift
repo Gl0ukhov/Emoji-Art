@@ -24,25 +24,11 @@ struct EmojiArt {
             id: uniqueEmojiId))
     }
     
-    mutating func removeSelection() {
-        for i in emojis.indices {
-            emojis[i].selection = false
-        }
-    }
-    
-    mutating func selectEmoji(_ emoji: EmojiArt.Emoji) {
-        let index = emojis.firstIndex { $0.id == emoji.id }
-        if let index {
-            emojis[index].selection.toggle()
-        }
-    }
-    
     struct Emoji: Identifiable {
         let string: String
         var position: Position
         var size: Int
         var id: Int
-        var selection = false 
         
         struct Position {
             var x: Int
