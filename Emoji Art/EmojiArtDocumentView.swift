@@ -18,6 +18,7 @@ struct EmojiArtDocumentView: View {
     // Набор выбранных эмодзи
     @State private var selectedSetEmoji: Set<Emoji.ID> = []
     
+    
     // Функция, которая проверяет выбран ли эмодзи
     private func emojiContain(_ emoji: Emoji.ID) -> Bool {
         selectedSetEmoji.contains(emoji)
@@ -65,11 +66,9 @@ struct EmojiArtDocumentView: View {
     
     @State private var zoom: CGFloat = 1
     @State private var pan: CGOffset = .zero
-    @State private var panEmoji: CGOffset = .zero
     
     @GestureState private var gestureZoom: CGFloat = 1
     @GestureState private var gesturePan: CGOffset = .zero
-    @GestureState private var gesturePanEmoji: CGOffset = .zero
     
     private var zoomGesture: some Gesture {
         MagnificationGesture()
@@ -94,35 +93,50 @@ struct EmojiArtDocumentView: View {
     }
     
     
-    private var emojiPanGesture: some Gesture {
+    @GestureState private var gesturePanEmoji: CGOffset = .zero
+    @State private var panEmoji: CGOffset = .zero
+
+    
+    private func emojiPanGesture(_ emoji: Emoji) -> some Gesture {
         DragGesture()
             .updating($gesturePanEmoji, body: { value, gesturePanEmoji, _ in
-                gesturePanEmoji = value.translation
+                if emojiContain(emoji.id) {
+                    gesturePanEmoji = value.translation
+                }
             })
             .onEnded { value in
-                panEmoji += value.translation
+                if  emojiContain(emoji.id) {
+                    for e in selectedSetEmoji {
+                        document.changePositionEmoji(emoji: e, offset: value.translation)
+                    }
+                }
             }
     }
     
     
+
     
     @ViewBuilder
     private func documentContents(in geometry: GeometryProxy) -> some View {
         AsyncImage(url: document.background)
-            .position(Emoji.Position.zero.in(geometry, gesture: nil))
+            .position(Emoji.Position.zero.in(geometry))
             .onTapGesture {
                 emojiAllRemoveSelect()
             }
         ForEach(document.emojis) { emoji in
             Text(emoji.string)
                 .font(emoji.font)
-                .shadow(radius: emojiContain(emoji.id) ? 10 : 0)
-                .position(emoji.position.in(geometry, gesture: gesturePanEmoji + panEmoji))
+                .shadow(color: .red, radius: emojiContain(emoji.id) ? 10 : 0)
+                .position(emoji.position.in(geometry))
                 .onTapGesture {
                     emojiSelect(emoji.id)
                 }
-                .gesture(emojiContain(emoji.id) ? emojiPanGesture : nil)
-
+                .offset(emojiContain(emoji.id) ? panEmoji + gesturePanEmoji : .zero)
+                .gesture(emojiPanGesture(emoji))
+                .onLongPressGesture {
+                    document.deleteEmoji(emoji: emoji.id)
+                }
+            
         }
         
     }

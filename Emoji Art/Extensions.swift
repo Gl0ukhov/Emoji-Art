@@ -43,6 +43,12 @@ extension String {
     }
 }
 
+extension Collection where Element: Identifiable {
+    func firstIndex(emojiID: Element.ID) -> Self.Index? {
+        firstIndex(where: { $0.id == emojiID } )
+    }
+}
+
 extension AnyTransition {
     static let rollUp: AnyTransition = .asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top))
     static let rollDown: AnyTransition = .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))

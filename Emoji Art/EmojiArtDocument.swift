@@ -16,7 +16,7 @@ class EmojiArtDocument {
     
     init() {
         emojiArt.addEmoji("🚑", at: .init(x: 100, y: -80), size: 200)
-        emojiArt.addEmoji("🦆", at: .init(x: 250, y: 100), size: 80)
+        emojiArt.addEmoji("🦆", at: .init(x: 250, y: 100), size: 200)
     }
     
     var emojis: [Emoji] {
@@ -34,7 +34,18 @@ class EmojiArtDocument {
     func addEmoji(_ emoji: String, at position: Emoji.Position, size: CGFloat) {
         emojiArt.addEmoji(emoji, at: position, size: Int(size))
     }
-
+    
+    func changePositionEmoji(emoji: Emoji.ID, offset: CGSize) {
+        if let index = emojiArt.emojis.firstIndex(emojiID: emoji) {
+            emojiArt.changePosition(emojiIndex: index, by: offset)
+        }
+    }
+    
+    func deleteEmoji(emoji: Emoji.ID) {
+        emojiArt.deleteEmoji(emoji)
+    }
+    
+    
 }
 
 extension EmojiArt.Emoji {
@@ -44,13 +55,13 @@ extension EmojiArt.Emoji {
 }
 
 extension EmojiArt.Emoji.Position {
-    func `in`(_ geometry: GeometryProxy, gesture: CGSize? ) -> CGPoint {
+    func `in`(_ geometry: GeometryProxy) -> CGPoint {
         let center = geometry.frame(in: .local).center
-        
-            return CGPoint(
-                x: center.x + CGFloat(x) + (gesture?.width ?? 0),
-                y: center.y - CGFloat(y) + (gesture?.height ?? 0))
-      
+        return CGPoint(
+            x: center.x + CGFloat(x),
+            y: center.y - CGFloat(y))
     }
 }
+
+
 
