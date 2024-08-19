@@ -13,7 +13,6 @@ class EmojiArtDocument {
     
     private var emojiArt = EmojiArt()
     
-    
     init() {
         emojiArt.addEmoji("🚑", at: .init(x: 100, y: -80), size: 200)
         emojiArt.addEmoji("🦆", at: .init(x: 250, y: 100), size: 200)
@@ -50,8 +49,6 @@ class EmojiArtDocument {
     func deleteEmoji(emoji: Emoji.ID) {
         emojiArt.deleteEmoji(emoji)
     }
-    
-    
 }
 
 extension EmojiArt.Emoji {

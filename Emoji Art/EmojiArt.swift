@@ -12,7 +12,6 @@ struct EmojiArt {
     var background: URL?
     private(set) var emojis = [Emoji]()
     
-    
     private var uniqueEmojiId = 0
     
     mutating func addEmoji(_ emoji: String, at position: Emoji.Position, size: Int) {
@@ -30,16 +29,9 @@ struct EmojiArt {
     }
     
     mutating func changeZoom(emojiIndex: Int, zoom: CGFloat) {
-        //        emojis[emojiIndex].size = Int(CGFloat(emojis[emojiIndex].size) * zoom)
-        let oldSize = CGFloat(emojis[emojiIndex].size)
-        emojis[emojiIndex].size = Int(oldSize * zoom)
+        emojis[emojiIndex].size = Int(CGFloat(emojis[emojiIndex].size) * zoom)
         
-        let scaleCorrection = zoom - 1
-        let xCorrection = CGFloat(emojis[emojiIndex].position.x) * scaleCorrection
-        let yCorrection = CGFloat(emojis[emojiIndex].position.y) * scaleCorrection
         
-        emojis[emojiIndex].position.x -= Int(xCorrection)
-        emojis[emojiIndex].position.y += Int(yCorrection)
     }
     
     mutating func deleteEmoji(_ emoji: Emoji.ID) {
@@ -47,7 +39,6 @@ struct EmojiArt {
             emojis.remove(at: index)
         }
     }
-
     
     struct Emoji: Identifiable {
         let string: String
@@ -57,7 +48,7 @@ struct EmojiArt {
         
         struct Position {
             var x: Int
-            var y: Int 
+            var y: Int
             
             static let zero = Self(x: 0, y: 0)
         }

@@ -10,6 +10,7 @@ import SwiftUI
 struct PaletteChooser: View {
     @Environment (PaletteStore.self) var store
     @Binding var alert: Bool
+    
     var body: some View {
         HStack {
             chooser

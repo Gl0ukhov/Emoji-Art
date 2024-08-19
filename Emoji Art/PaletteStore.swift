@@ -43,7 +43,6 @@ class PaletteStore {
     }
     
     // MARK: - Adding Palettes
-    
     // these functions are the recommended way to add Palettes to the PaletteStore
     // since they try to avoid duplication of Identifiable-ly identical Palettes
     // by first removing/replacing any Palette with the same id that is already in palettes

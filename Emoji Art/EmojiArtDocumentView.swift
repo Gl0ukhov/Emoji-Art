@@ -11,33 +11,11 @@ struct EmojiArtDocumentView: View {
     typealias Emoji = EmojiArt.Emoji
     var document: EmojiArtDocument
     
+    // MARK: General properties
+    @State private var notificationOfDeletion = false
     private let paletteEmojiSize: CGFloat = 50
     
-    // Набор выбранных эмодзи
-    @State private var selectedSetEmoji: Set<Emoji.ID> = []
-    
-    @State private var notificationOfDeletion = false
-    
-    // Функция, которая проверяет выбран ли эмодзи
-    private func emojiContain(_ emoji: Emoji.ID) -> Bool {
-        selectedSetEmoji.contains(emoji)
-    }
-    
-    // Функция выбора эмодзи
-    private func emojiSelect(_ emoji: Emoji.ID) {
-        if selectedSetEmoji.contains(emoji) {
-            selectedSetEmoji.remove(emoji)
-        } else {
-            selectedSetEmoji.insert(emoji)
-        }
-    }
-    
-    // Функция для полного снятия выбора со всех эмодзи
-    private func emojiAllRemoveSelect() {
-        selectedSetEmoji.removeAll()
-    }
-   
-    
+    // MARK: Main screen
     var body: some View {
         VStack(spacing: 0) {
             documentBody
@@ -48,6 +26,7 @@ struct EmojiArtDocumentView: View {
         }
     }
     
+    // MARK: Drawing window
     private var documentBody: some View {
         GeometryReader { geometry in
             ZStack {
@@ -60,86 +39,23 @@ struct EmojiArtDocumentView: View {
             .dropDestination(for: Sturldata.self) { sturldatas, location in
                 drop(sturldatas, at: location, in: geometry)
             }
+            .onTapGesture {
+                emojiAllRemoveSelect()
+            }
         }
     }
-    
-    @State private var zoom: CGFloat = 1
-    @State private var zoomEmoji: CGFloat = 1
-    @State private var pan: CGOffset = .zero
-    
-    @GestureState private var gestureZoom: CGFloat = 1
-    @GestureState private var gesturePan: CGOffset = .zero
-    
-    private var zoomGesture: some Gesture {
-        
-        MagnificationGesture()
-            .updating($gestureZoom, body: { value, gestureZoom, _ in
-                gestureZoom = value
-                
-            })
-            .onEnded { value in
-                if !selectedSetEmoji.isEmpty {
-                    zoomEmoji *= value
-                    for emojiID in selectedSetEmoji {
-                        document.changeZoomEmoji(emoji: emojiID, zoom: zoomEmoji * value)
-                    }
-                    zoomEmoji = 1
-                } else {
-                    zoom *= value
-                }
-            }
-    }
-    
-    private var panGesture: some Gesture {
-        DragGesture()
-            .updating($gesturePan, body: { value, gesturePan, _ in
-                gesturePan = value.translation
-                
-            })
-            .onEnded { value in
-                pan += value.translation
-                
-            }
-    }
-    
-    
-    @GestureState private var gesturePanEmoji: CGOffset = .zero
-    @State private var panEmoji: CGOffset = .zero
-
-    
-    private func emojiPanGesture(_ emoji: Emoji) -> some Gesture {
-        DragGesture()
-            .updating($gesturePanEmoji, body: { value, gesturePanEmoji, _ in
-                if emojiContain(emoji.id) {
-                    gesturePanEmoji = value.translation
-                }
-            })
-            .onEnded { value in
-                if emojiContain(emoji.id) {
-                    for e in selectedSetEmoji {
-                        document.changePositionEmoji(emoji: e, offset: value.translation)
-                    }
-                }
-            }
-    }
-    
-    
-
     
     @ViewBuilder
     private func documentContents(in geometry: GeometryProxy) -> some View {
         AsyncImage(url: document.background)
             .position(Emoji.Position.zero.in(geometry))
-            .onTapGesture {
-                emojiAllRemoveSelect()
-            }
+            
         ForEach(document.emojis) { emoji in
             Text(emoji.string)
                 .font(emoji.font)
                 .shadow(color: .red, radius: emojiContain(emoji.id) ? 10 : 0)
                 .position(emoji.position.in(geometry))
-                
-                .scaleEffect(emojiContain(emoji.id) ? zoomEmoji * gestureZoom : 1)
+                .scaleEffect(emojiContain(emoji.id) ? gestureZoom : 1)
                 .onTapGesture {
                     emojiSelect(emoji.id)
                 }
@@ -151,13 +67,11 @@ struct EmojiArtDocumentView: View {
                             for emojiID in selectedSetEmoji {
                                 document.deleteEmoji(emoji: emojiID)
                             }
-                            notificationOfDeletion = false
+                            emojiAllRemoveSelect()
                         }
                     }
                 })
-            
         }
-        
     }
     
     private func drop(_ sturldatas: [Sturldata], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
@@ -185,6 +99,83 @@ struct EmojiArtDocumentView: View {
             x: Int((location.x - center.x - pan.width ) / zoom),
             y: Int(-(location.y - center.y - pan.height ) / zoom)
         )
+    }
+    
+    // MARK: Tap gesture
+    @State private var selectedSetEmoji: Set<Emoji.ID> = []
+    
+    private func emojiContain(_ emoji: Emoji.ID) -> Bool {
+        selectedSetEmoji.contains(emoji)
+    }
+    
+    private func emojiSelect(_ emoji: Emoji.ID) {
+        if selectedSetEmoji.contains(emoji) {
+            selectedSetEmoji.remove(emoji)
+        } else {
+            selectedSetEmoji.insert(emoji)
+        }
+    }
+    
+    private func emojiAllRemoveSelect() {
+        selectedSetEmoji.removeAll()
+    }
+    
+    // MARK: General drag gesture
+    @GestureState private var gesturePan: CGOffset = .zero
+    @State private var pan: CGOffset = .zero
+    
+    private var panGesture: some Gesture {
+        DragGesture()
+            .updating($gesturePan, body: { value, gesturePan, _ in
+                gesturePan = value.translation
+            })
+            .onEnded { value in
+                pan += value.translation
+            }
+    }
+    
+    // MARK: Drag gesture for emoji
+    @GestureState private var gesturePanEmoji: CGOffset = .zero
+    @State private var panEmoji: CGOffset = .zero
+    
+    private func emojiPanGesture(_ emoji: Emoji) -> some Gesture {
+        DragGesture()
+            .updating($gesturePanEmoji, body: { value, gesturePanEmoji, _ in
+                if emojiContain(emoji.id) {
+                    gesturePanEmoji = value.translation
+                }
+            })
+            .onEnded { value in
+                if emojiContain(emoji.id) {
+                    for e in selectedSetEmoji {
+                        document.changePositionEmoji(emoji: e, offset: value.translation)
+                    }
+                }
+            }
+    }
+    
+    // MARK: Zoom gesture
+    @State private var zoom: CGFloat = 1
+    @State private var zoomEmoji: CGFloat = 1
+    
+    @GestureState private var gestureZoom: CGFloat = 1
+    
+    private var zoomGesture: some Gesture {
+        MagnificationGesture()
+            .updating($gestureZoom, body: { value, gestureZoom, _ in
+                gestureZoom = value
+            })
+            .onEnded { value in
+                if !selectedSetEmoji.isEmpty {
+                    zoomEmoji *= value
+                    for emojiID in selectedSetEmoji {
+                        document.changeZoomEmoji(emoji: emojiID, zoom: zoomEmoji)
+                    }
+                    zoomEmoji = 1
+                } else {
+                    zoom *= value
+                }
+            }
     }
 }
 
