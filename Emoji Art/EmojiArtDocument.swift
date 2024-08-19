@@ -41,6 +41,12 @@ class EmojiArtDocument {
         }
     }
     
+    func changeZoomEmoji(emoji: Emoji.ID, zoom: CGFloat) {
+        if let index = emojiArt.emojis.firstIndex(emojiID: emoji) {
+            emojiArt.changeZoom(emojiIndex: index, zoom: zoom)
+        }
+    }
+    
     func deleteEmoji(emoji: Emoji.ID) {
         emojiArt.deleteEmoji(emoji)
     }
@@ -58,7 +64,7 @@ extension EmojiArt.Emoji.Position {
     func `in`(_ geometry: GeometryProxy) -> CGPoint {
         let center = geometry.frame(in: .local).center
         return CGPoint(
-            x: center.x + CGFloat(x),
+            x: center.x + CGFloat(x) ,
             y: center.y - CGFloat(y))
     }
 }

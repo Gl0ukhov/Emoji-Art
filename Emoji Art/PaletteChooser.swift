@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaletteChooser: View {
     @Environment (PaletteStore.self) var store
-    
+    @Binding var alert: Bool
     var body: some View {
         HStack {
             chooser
@@ -36,6 +36,9 @@ struct PaletteChooser: View {
         HStack {
             Text(palette.name)
             ScrollingEmojiss(palette.emojis)
+            Button("Delete") {
+                alert.toggle()
+            }
         }
         .id(palette.id)
         .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)))
@@ -62,7 +65,7 @@ struct ScrollingEmojiss: View {
     
 }
 
-#Preview {
-    PaletteChooser()
-        .environment(PaletteStore(named: "Preview"))
-}
+//#Preview {
+//    PaletteChooser(alert: )
+//        .environment(PaletteStore(named: "Preview"))
+//}
