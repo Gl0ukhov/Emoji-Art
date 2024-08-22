@@ -18,6 +18,7 @@
 		800B86962C69D6ED00652D75 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B86952C69D6ED00652D75 /* Palette.swift */; };
 		800B86982C69D8FB00652D75 /* PaletteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B86972C69D8FB00652D75 /* PaletteStore.swift */; };
 		800B869A2C69E4C900652D75 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800B86992C69E4C900652D75 /* PaletteChooser.swift */; };
+		80E5152A2C7620830091C1D5 /* PaletteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E515292C7620830091C1D5 /* PaletteEditor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		800B86952C69D6ED00652D75 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		800B86972C69D8FB00652D75 /* PaletteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteStore.swift; sourceTree = "<group>"; };
 		800B86992C69E4C900652D75 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
+		80E515292C7620830091C1D5 /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +72,9 @@
 				800B86432C63A77B00652D75 /* EmojiArtDocument.swift */,
 				800B86412C63A5CE00652D75 /* EmojiArt.swift */,
 				800B86992C69E4C900652D75 /* PaletteChooser.swift */,
-				800B86952C69D6ED00652D75 /* Palette.swift */,
 				800B86972C69D8FB00652D75 /* PaletteStore.swift */,
+				800B86952C69D6ED00652D75 /* Palette.swift */,
+				80E515292C7620830091C1D5 /* PaletteEditor.swift */,
 				800B86472C63B52900652D75 /* Extensions.swift */,
 				800B864B2C652E1300652D75 /* Sturldata.swift */,
 				800B86372C63A56400652D75 /* Assets.xcassets */,
@@ -160,6 +163,7 @@
 			files = (
 				800B864C2C652E1300652D75 /* Sturldata.swift in Sources */,
 				800B86462C63A92000652D75 /* EmojiArtDocumentView.swift in Sources */,
+				80E5152A2C7620830091C1D5 /* PaletteEditor.swift in Sources */,
 				800B86482C63B52A00652D75 /* Extensions.swift in Sources */,
 				800B86422C63A5CE00652D75 /* EmojiArt.swift in Sources */,
 				800B86982C69D8FB00652D75 /* PaletteStore.swift in Sources */,

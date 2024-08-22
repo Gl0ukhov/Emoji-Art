@@ -23,18 +23,19 @@ extension UserDefaults {
 }
 
 @Observable
-class PaletteStore {
+class PaletteStore: ObservableObject {
     let name: String
     
     private var userDefaultsKey: String { "PaletteStore:" + name}
     
-    var palettes: [Palette] {
+     var palettes: [Palette] {
         get {
             UserDefaults.standard.palettes(forKey: userDefaultsKey)
         }
         set {
             if !newValue.isEmpty {
                 UserDefaults.standard.set(newValue, forKey: userDefaultsKey)
+                objectWillChange.send()
             }
         }
     }
