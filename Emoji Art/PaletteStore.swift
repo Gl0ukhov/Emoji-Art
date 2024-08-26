@@ -22,7 +22,6 @@ extension UserDefaults {
     }
 }
 
-@Observable
 class PaletteStore: ObservableObject, Identifiable {
     let name: String
     
@@ -52,7 +51,7 @@ class PaletteStore: ObservableObject, Identifiable {
         }
     }
     
-    private var _cursorIndex = 0
+    @Published private var _cursorIndex = 0
     
     var cursorIndex: Int {
         get { boundsCheckedPaletteIndex(_cursorIndex) }

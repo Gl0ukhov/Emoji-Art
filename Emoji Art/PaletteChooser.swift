@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct PaletteChooser: View {
     @EnvironmentObject var store: PaletteStore
     

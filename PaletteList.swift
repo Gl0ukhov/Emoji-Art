@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUI
 
 struct EditablePaletteList: View {
-    @Bindable var store: PaletteStore
+    @ObservedObject var store: PaletteStore
     
     @State private var showCursorPalette = false
     
@@ -54,7 +54,7 @@ struct EditablePaletteList: View {
 }
 
 struct PaletteList: View {
-    @Bindable var store: PaletteStore
+    @EnvironmentObject var store: PaletteStore
     
     var body: some View {
         NavigationStack {

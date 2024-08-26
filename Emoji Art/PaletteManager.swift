@@ -30,7 +30,7 @@ struct PaletteManager: View {
 }
 
 struct PaletteStoreView: View {
-    @Bindable var store: PaletteStore
+    @ObservedObject var store: PaletteStore
     
     var body: some View {
         Text(store.name)

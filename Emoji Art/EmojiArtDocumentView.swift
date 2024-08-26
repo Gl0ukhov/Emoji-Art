@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EmojiArtDocumentView: View {
     typealias Emoji = EmojiArt.Emoji
-    var document: EmojiArtDocument
+    @ObservedObject var document: EmojiArtDocument
     
     // MARK: General properties
     @State private var notificationOfDeletion = false
