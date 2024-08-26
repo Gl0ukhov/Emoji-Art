@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-@Observable
-class EmojiArtDocument {
+
+class EmojiArtDocument: ObservableObject {
     typealias Emoji = EmojiArt.Emoji
     
-    private var emojiArt = EmojiArt() {
+    @Published private var emojiArt = EmojiArt() {
         didSet {
             autosave()
         }

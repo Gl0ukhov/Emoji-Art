@@ -19,7 +19,7 @@ struct EmojiArtDocumentView: View {
     var body: some View {
         VStack(spacing: 0) {
             documentBody
-            PaletteChooser(alert: $notificationOfDeletion)
+            PaletteChooser()
                 .font(.system(size: paletteEmojiSize))
                 .padding(.horizontal)
                 .scrollIndicators(.hidden)
@@ -192,5 +192,5 @@ struct EmojiArtDocumentView: View {
 
 #Preview {
     EmojiArtDocumentView(document: EmojiArtDocument())
-        .environment(PaletteStore(named: "Preview"))
+        .environmentObject(PaletteStore(named: "Preview"))
 }

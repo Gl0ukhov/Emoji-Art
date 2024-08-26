@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 extension UserDefaults {
     func palettes(forKey key: String) -> [Palette] {
         if let jsonData = data(forKey: key),
@@ -15,7 +16,6 @@ extension UserDefaults {
             return []
         }
     }
-    
     func set(_ palettes: [Palette], forKey key: String) {
         let data = try? JSONEncoder().encode(palettes)
         set(data, forKey: key)
@@ -23,12 +23,14 @@ extension UserDefaults {
 }
 
 @Observable
-class PaletteStore: ObservableObject {
+class PaletteStore: ObservableObject, Identifiable {
     let name: String
     
-    private var userDefaultsKey: String { "PaletteStore:" + name}
+    var id: String { name }
     
-     var palettes: [Palette] {
+    private var userDefaultsKey: String { "PaletteStore:" + name }
+    
+    var palettes: [Palette] {
         get {
             UserDefaults.standard.palettes(forKey: userDefaultsKey)
         }
@@ -67,6 +69,7 @@ class PaletteStore: ObservableObject {
     }
     
     // MARK: - Adding Palettes
+    
     // these functions are the recommended way to add Palettes to the PaletteStore
     // since they try to avoid duplication of Identifiable-ly identical Palettes
     // by first removing/replacing any Palette with the same id that is already in palettes
@@ -102,4 +105,15 @@ class PaletteStore: ObservableObject {
     func append(name: String, emojis: String) {
         append(Palette(name: name, emojis: emojis))
     }
+}
+
+extension PaletteStore: Hashable {
+    static func == (lhs: PaletteStore, rhs: PaletteStore) -> Bool {
+        lhs.name == rhs.name
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
+    
 }
