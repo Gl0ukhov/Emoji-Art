@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "Microsoft_Paint.svg.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
