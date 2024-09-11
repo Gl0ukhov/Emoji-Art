@@ -17,11 +17,15 @@ struct PaletteChooser: View {
         HStack {
             chooser
             view(for: store.palettes[store.cursorIndex])
+                
         }
         .clipped()
         .sheet(isPresented: $showPaletteEditor) {
             PaletteEditor(palette: $store.palettes[store.cursorIndex])
                 .font(nil)
+                .wrappedInNavigationViewToMakeDismissable {
+                    showPaletteEditor = false
+                }
         }
         .sheet(isPresented: $showPaletteList) {
             NavigationStack {
@@ -70,6 +74,7 @@ struct PaletteChooser: View {
     private func view(for palette: Palette) -> some View {
         HStack {
             Text(palette.name)
+                .font(.title)
             ScrollingEmojis(palette.emojis)
         }
         .id(palette.id)

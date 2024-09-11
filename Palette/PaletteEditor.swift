@@ -10,7 +10,7 @@ import SwiftUI
 struct PaletteEditor: View {
     @Binding var palette: Palette
         
-    private let emojiFont = Font.system(size: 40)
+    private let emojiFont = Font.title
     
     @State private var emojisToAdd: String = ""
     

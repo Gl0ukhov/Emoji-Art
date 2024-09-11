@@ -32,8 +32,47 @@ struct EmojiArtDocumentView: View {
         }
         .toolbar {
             UndoButton()
+//            AnimatedActionButton("Paste background", systemImage: "doc.on.clipboard") {
+//                pasteBackground() 
+//            }
+            AnimatedActionButton("Camer", systemImage: "camera") {
+                if Camera.isAvailable {
+                    backgroundPicker = .camera
+                }
+            }
         }
+        .sheet(item: $backgroundPicker, content: { pickerType in
+            switch pickerType {
+            case .camera: Camera { image in handlePickedBackgroundImage(image)}
+            case .library: EmptyView()
+            }
+        })
         .environmentObject(paletteStore)
+    }
+    
+    private func handlePickedBackgroundImage(_ image: UIImage?) {
+        if let imageData = image?.jpegData(compressionQuality: 1.0) {
+//            document.setBackground(URL?)
+        }
+        backgroundPicker = nil
+    }
+    
+    @State private var backgroundPicker: BackgroundPickerType? = nil
+    
+    enum BackgroundPickerType: Identifiable {
+        case camera
+        case library
+        var id: BackgroundPickerType { self }
+    }
+    
+    private func pasteBackground() {
+        if let imageData = UIPasteboard.general.image?.jpegData(compressionQuality: 1.0) {
+            
+        } else if let url = UIPasteboard.general.url?.imageURL {
+            document.setBackground(url, undoWith: undoManager)
+        } else {
+            
+        }
     }
     
     // MARK: Drawing window
